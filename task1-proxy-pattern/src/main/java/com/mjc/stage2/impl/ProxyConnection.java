@@ -12,6 +12,9 @@ public class ProxyConnection implements Connection {
 
     public void reallyClose() {
         realConnection.close();
+        if (realConnection.isClosed()){
+            ConnectionPool.getInstance().releaseConnection(realConnection);
+        }
     }
 
     @Override
@@ -20,7 +23,7 @@ public class ProxyConnection implements Connection {
 
     @Override
     public boolean isClosed() {
-        return false;
+        return realConnection.isClosed();
     }
     // Implement methods here!
 }
